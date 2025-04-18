@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../qr_scan_page.dart'; // Updated import path
 
 class HomePage extends StatelessWidget {
   @override
@@ -35,8 +36,28 @@ class HomePage extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.camera_alt),
-              onPressed: () {
-                // Add regular camera functionality here
+              onPressed: () async {
+                // QR scanning logic
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const QRScanPage()),
+                );
+
+                if (result != null && context.mounted) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('QR Code Scanned'),
+                      content: Text('Value: $result'),
+                      actions: [
+                        TextButton(
+                          onPressed: Navigator.of(context).pop,
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
               },
             ),
             IconButton(
