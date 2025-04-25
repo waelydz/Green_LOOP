@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'chat_page.dart';
 import 'Profile.dart';
 import 'green_market_home.dart';
+import 'chatbot.dart'; // Corrected import for Chat with Bot Page
 
 class HomePage extends StatefulWidget {
   @override
@@ -124,26 +124,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3D8D7A),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ChatPage()),
-                    );
-                  },
-                  child: const Text(
-                    "Chat with Seller",
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                ),
               ],
             ),
           ),
@@ -255,7 +235,15 @@ class _HomePageState extends State<HomePage> {
           icon: const Icon(Icons.smart_toy),
           iconSize: 35.0,
           color: Colors.black,
-          onPressed: () {},
+          onPressed: () {
+            // Navigate to ChatbotPage when "smart_toy" icon is clicked
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ChatbotPage()), // Corrected navigation to ChatbotPage
+            );
+          },
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
