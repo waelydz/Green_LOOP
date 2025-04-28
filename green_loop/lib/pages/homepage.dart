@@ -5,6 +5,7 @@ import 'chatbot.dart';
 import 'workshops_page.dart';
 import 'RewardsPage.dart';
 import 'Rewards_colector.dart';
+import 'ReportProblemPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -75,6 +76,9 @@ class _HomePageState extends State<HomePage>
         } else if (title == "Rewards") {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => RewardsPage()));
+        } else if (title == "Report Problem") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ReportProblemPage()));
         }
       },
       child: Padding(
@@ -128,6 +132,15 @@ class _HomePageState extends State<HomePage>
       ),
       body: Stack(
         children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.3,
+              child: Image.asset(
+                'assets/images/leaves_background.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -206,22 +219,19 @@ class _HomePageState extends State<HomePage>
                       InkWell(
                         onTap: _toggleNotifications,
                         child: const Text("New workshop added",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255))),
+                            style: TextStyle(color: Colors.white)),
                       ),
                       const SizedBox(height: 8),
                       InkWell(
                         onTap: _toggleNotifications,
                         child: const Text("Check out the latest news",
-                            style: TextStyle(
-                                color: Color.fromRGBO(255, 255, 255, 1))),
+                            style: TextStyle(color: Colors.white)),
                       ),
                       const SizedBox(height: 8),
                       InkWell(
                         onTap: _toggleNotifications,
                         child: const Text("Dr. Manar reacted to your post",
-                            style: TextStyle(
-                                color: Color.fromRGBO(255, 255, 255, 1))),
+                            style: TextStyle(color: Colors.white)),
                       ),
                     ],
                   ),
