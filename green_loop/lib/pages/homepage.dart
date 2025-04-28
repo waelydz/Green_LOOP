@@ -3,6 +3,7 @@ import 'Profile.dart';
 import 'green_market_home.dart';
 import 'chatbot.dart';
 import 'workshops_page.dart';
+import 'RewardsPage.dart'; // Add the Rewards page import
 
 class HomePage extends StatefulWidget {
   @override
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> {
           _showMenu = false;
         });
 
+        // Navigate to the correct page based on menu item clicked
         if (title == "Profile") {
           Navigator.push(
             context,
@@ -47,9 +49,13 @@ class _HomePageState extends State<HomePage> {
         } else if (title == "Workshops") {
           Navigator.push(
             context,
+            MaterialPageRoute(builder: (context) => WorkshopsPage()),
+          );
+        } else if (title == "Rewards") {
+          Navigator.push(
+            context,
             MaterialPageRoute(
-                builder: (context) =>
-                    WorkshopsPage()), // Navigate to WorkshopsPage
+                builder: (context) => RewardsPage()), // Navigate to RewardsPage
           );
         }
       },
@@ -155,10 +161,10 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     _buildMenuItem("Profile", Icons.person),
                     _buildMenuItem("Green Market", Icons.store),
-                    _buildMenuItem(
-                        "Workshops", Icons.work), // Navigate to WorkshopsPage
+                    _buildMenuItem("Workshops", Icons.work),
                     _buildMenuItem("News", Icons.article),
                     _buildMenuItem("Mini Games", Icons.videogame_asset),
+                    _buildMenuItem("Rewards", Icons.card_giftcard),
                     _buildMenuItem("Support Center", Icons.support),
                     _buildMenuItem("Report Problem", Icons.report_problem),
                   ],
