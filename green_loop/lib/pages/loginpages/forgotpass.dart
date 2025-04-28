@@ -1,14 +1,10 @@
 import "package:flutter/material.dart";
-import 'login.dart';
 import 'resetpass.dart';
-
 
 //to be added: make sure the user has inputted text in the text field before they press submit and are moved to the next page
 //to be added: make sure the email and password inputs are in the valid format ex: smth@org.com etc.
 
-
 class Forgotpass extends StatelessWidget {
-
   Color c1 = const Color(0xFF3D8D7A);
   Color c2 = const Color(0xFFB3D8A8);
   Color c3 = const Color(0xFFA3D1C6);
@@ -19,16 +15,16 @@ class Forgotpass extends StatelessWidget {
     return Scaffold(
       backgroundColor: c1,
       appBar: AppBar(
-        backgroundColor: c1, 
-        elevation: 0, 
+        backgroundColor: c1,
+        elevation: 0,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context); 
+            Navigator.pop(context);
           },
           child: Padding(
-            padding: const EdgeInsets.all(8.0), 
+            padding: const EdgeInsets.all(8.0),
             child: Image.asset(
-              'assets/images/backicon1.png', 
+              'assets/images/backicon1.png',
               width: 24,
               height: 24,
               fit: BoxFit.contain,
@@ -38,20 +34,18 @@ class Forgotpass extends StatelessWidget {
       ),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-
           //forgot password text
-           const Padding(
-              padding: EdgeInsets.only(bottom: 40), 
-              child: Text(
-                'Forgot Password',
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Color(0xFFFBFFE4),
-                  fontWeight: FontWeight.bold,
-                ),
+          const Padding(
+            padding: EdgeInsets.only(bottom: 40),
+            child: Text(
+              'Forgot Password',
+              style: TextStyle(
+                fontSize: 24,
+                color: Color(0xFFFBFFE4),
+                fontWeight: FontWeight.bold,
               ),
             ),
-          
+          ),
 
           // Email Input
           SizedBox(
@@ -93,7 +87,7 @@ class Forgotpass extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-           SizedBox(
+          SizedBox(
             width: 250,
             child: TextField(
               decoration: InputDecoration(

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'Profile.dart';
 import 'green_market_home.dart';
-import 'chatbot.dart'; // Corrected import for Chat with Bot Page
+import 'chatbot.dart';
+import 'workshops_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -35,10 +36,21 @@ class _HomePageState extends State<HomePage> {
 
         if (title == "Profile") {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ProfilePage()));
+            context,
+            MaterialPageRoute(builder: (context) => ProfilePage()),
+          );
         } else if (title == "Green Market") {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => GreenMarketHomePage()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => GreenMarketHomePage()),
+          );
+        } else if (title == "Workshops") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    WorkshopsPage()), // Navigate to WorkshopsPage
+          );
         }
       },
       child: Padding(
@@ -47,8 +59,10 @@ class _HomePageState extends State<HomePage> {
           children: [
             Icon(icon, color: Colors.white),
             const SizedBox(width: 10),
-            Text(title,
-                style: const TextStyle(color: Colors.white, fontSize: 16)),
+            Text(
+              title,
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+            ),
           ],
         ),
       ),
@@ -141,7 +155,8 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     _buildMenuItem("Profile", Icons.person),
                     _buildMenuItem("Green Market", Icons.store),
-                    _buildMenuItem("Workshops", Icons.work),
+                    _buildMenuItem(
+                        "Workshops", Icons.work), // Navigate to WorkshopsPage
                     _buildMenuItem("News", Icons.article),
                     _buildMenuItem("Mini Games", Icons.videogame_asset),
                     _buildMenuItem("Support Center", Icons.support),
@@ -166,20 +181,26 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     InkWell(
                       onTap: _toggleNotifications,
-                      child: const Text("New workshop added",
-                          style: TextStyle(color: Colors.black)),
+                      child: const Text(
+                        "New workshop added",
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                     const SizedBox(height: 8),
                     InkWell(
                       onTap: _toggleNotifications,
-                      child: const Text("Check out the latest news",
-                          style: TextStyle(color: Colors.black)),
+                      child: const Text(
+                        "Check out the latest news",
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                     const SizedBox(height: 8),
                     InkWell(
                       onTap: _toggleNotifications,
-                      child: const Text("Dr. Manar reacted to your post",
-                          style: TextStyle(color: Colors.black)),
+                      child: const Text(
+                        "Dr. Manar reacted to your post",
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ],
                 ),
@@ -240,8 +261,8 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      ChatbotPage()), // Corrected navigation to ChatbotPage
+                builder: (context) => ChatbotPage(),
+              ), // Corrected navigation to ChatbotPage
             );
           },
         ),
