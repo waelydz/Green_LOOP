@@ -11,22 +11,48 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   bool _showMenu = false;
   bool _showNotifications = false;
+  double _menuOpacity = 0;
+  double _notificationsOpacity = 0;
+  late AnimationController _fabController;
+  late Animation<double> _fabAnimation;
 
   void _toggleMenu() {
     setState(() {
       _showMenu = !_showMenu;
+      _menuOpacity = _showMenu ? 1 : 0;
       _showNotifications = false;
+      _notificationsOpacity = 0;
     });
   }
 
   void _toggleNotifications() {
     setState(() {
       _showNotifications = !_showNotifications;
+      _notificationsOpacity = _showNotifications ? 1 : 0;
       _showMenu = false;
+      _menuOpacity = 0;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fabController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    )..repeat(reverse: true);
+    _fabAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
+        CurvedAnimation(parent: _fabController, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _fabController.dispose();
+    super.dispose();
   }
 
   Widget _buildMenuItem(String title, IconData icon) {
@@ -34,6 +60,7 @@ class _HomePageState extends State<HomePage> {
       onTap: () {
         setState(() {
           _showMenu = false;
+          _menuOpacity = 0;
         });
 
         if (title == "Profile") {
@@ -56,10 +83,8 @@ class _HomePageState extends State<HomePage> {
           children: [
             Icon(icon, color: Colors.white),
             const SizedBox(width: 10),
-            Text(
-              title,
-              style: const TextStyle(color: Colors.white, fontSize: 16),
-            ),
+            Text(title,
+                style: const TextStyle(color: Colors.white, fontSize: 16)),
           ],
         ),
       ),
@@ -106,42 +131,37 @@ class _HomePageState extends State<HomePage> {
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  "Green Loop",
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                const Text(
-                  "Where Every Cycle",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    fontStyle: FontStyle.italic,
-                    color: Color.fromARGB(255, 80, 77, 77),
-                  ),
-                ),
-                const Text(
-                  "Creates Change",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    fontStyle: FontStyle.italic,
-                    color: Color.fromARGB(255, 80, 77, 77),
-                  ),
-                ),
-                const SizedBox(height: 30),
+              children: const [
+                Text("Green Loop",
+                    style: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)),
+                SizedBox(height: 12),
+                Text("Where Every Cycle",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        fontStyle: FontStyle.italic,
+                        color: Color.fromARGB(255, 80, 77, 77))),
+                Text("Creates Change",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        fontStyle: FontStyle.italic,
+                        color: Color.fromARGB(255, 80, 77, 77))),
+                SizedBox(height: 30),
               ],
             ),
           ),
-          if (_showMenu)
-            Positioned(
-              top: 65,
-              left: 18,
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            top: _showMenu ? 48 : -400,
+            left: 30,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 300),
+              opacity: _menuOpacity,
               child: Container(
                 width: 200,
                 decoration: BoxDecoration(
@@ -162,44 +182,49 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+          ),
           if (_showNotifications)
-            Positioned(
-              top: 70,
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              top: _showNotifications ? 48 : -400,
               right: 10,
-              child: Container(
-                width: 250,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF3D8D7A),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: _toggleNotifications,
-                      child: const Text(
-                        "New workshop added",
-                        style: TextStyle(color: Colors.black),
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 300),
+                opacity: _notificationsOpacity,
+                child: Container(
+                  width: 250,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF3D8D7A),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      InkWell(
+                        onTap: _toggleNotifications,
+                        child: const Text("New workshop added",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255))),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    InkWell(
-                      onTap: _toggleNotifications,
-                      child: const Text(
-                        "Check out the latest news",
-                        style: TextStyle(color: Colors.black),
+                      const SizedBox(height: 8),
+                      InkWell(
+                        onTap: _toggleNotifications,
+                        child: const Text("Check out the latest news",
+                            style: TextStyle(
+                                color: Color.fromRGBO(255, 255, 255, 1))),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    InkWell(
-                      onTap: _toggleNotifications,
-                      child: const Text(
-                        "Dr. Manar reacted to your post",
-                        style: TextStyle(color: Colors.black),
+                      const SizedBox(height: 8),
+                      InkWell(
+                        onTap: _toggleNotifications,
+                        child: const Text("Dr. Manar reacted to your post",
+                            style: TextStyle(
+                                color: Color.fromRGBO(255, 255, 255, 1))),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -216,10 +241,9 @@ class _HomePageState extends State<HomePage> {
               iconSize: 30.0,
               onPressed: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RewodsCollectorPage()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RewodsCollectorPage()));
               },
             ),
             IconButton(
@@ -241,30 +265,31 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: Container(
-        width: 70,
-        height: 70,
-        decoration: BoxDecoration(
-          color: const Color(0xFF7AC4B2),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: IconButton(
-          icon: const Icon(Icons.smart_toy),
-          iconSize: 35.0,
-          color: Colors.black,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ChatbotPage()),
-            );
-          },
+      floatingActionButton: ScaleTransition(
+        scale: _fabAnimation,
+        child: Container(
+          width: 70,
+          height: 70,
+          decoration: BoxDecoration(
+            color: const Color(0xFF7AC4B2),
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.smart_toy),
+            iconSize: 35.0,
+            color: Colors.black,
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ChatbotPage()));
+            },
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

@@ -5,45 +5,61 @@ class ChatbotPage extends StatefulWidget {
   _ChatbotPageState createState() => _ChatbotPageState();
 }
 
-class _ChatbotPageState extends State<ChatbotPage> {
-  TextEditingController _controller = TextEditingController();
+class _ChatbotPageState extends State<ChatbotPage>
+    with TickerProviderStateMixin {
+  late final TextEditingController _controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   List<Map<String, String>> messages = [];
+  bool isBotTyping = false;
 
-  // Function to show modal dialog with text
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      _showJourneyDialog();
+      _addBotMessage("Hi! How can I help you today?");
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   void _showJourneyDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor:
-              Colors.transparent, // Make the background transparent
+          backgroundColor: Colors.transparent,
           elevation: 0,
           content: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color:
-                  Colors.grey.withOpacity(0.5), // Gray background for the modal
+              color: Colors.grey.withOpacity(0.8),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   "Begin your recycling",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white, // Text color
+                    color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   "journey!",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white, // Text color
+                    color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -58,34 +74,45 @@ class _ChatbotPageState extends State<ChatbotPage> {
   void _sendMessage() {
     if (_controller.text.isNotEmpty) {
       setState(() {
-        // Add user message
-        messages.add({
-          'sender': 'user',
-          'message': _controller.text,
-        });
+        messages.add({'sender': 'user', 'message': _controller.text});
+      });
 
-        // Bot response simulation with a delay
-        Future.delayed(Duration(seconds: 1), () {
-          setState(() {
-            messages.add({
-              'sender': 'bot',
-              'message': 'Thank you! How can I assist you further?',
-            });
+      _controller.clear();
+      _scrollToBottom();
+
+      setState(() {
+        isBotTyping = true;
+      });
+
+      Future.delayed(const Duration(seconds: 1), () {
+        setState(() {
+          isBotTyping = false;
+          messages.add({
+            'sender': 'bot',
+            'message': 'Thank you! How can I assist you further?'
           });
         });
-
-        // Clear the text field after sending the message
-        _controller.clear();
+        _scrollToBottom();
       });
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // Show modal dialog when page is loaded
-    Future.delayed(Duration.zero, () {
-      _showJourneyDialog();
+  void _addBotMessage(String text) {
+    setState(() {
+      messages.add({'sender': 'bot', 'message': text});
+    });
+    _scrollToBottom();
+  }
+
+  void _scrollToBottom() {
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
     });
   }
 
@@ -93,35 +120,37 @@ class _ChatbotPageState extends State<ChatbotPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFB3D8A8), // Green background
+        backgroundColor: const Color(0xFFB3D8A8),
         elevation: 0,
         title:
             const Text("Green Loop Bot", style: TextStyle(color: Colors.black)),
         actions: [
-          // Only the user icon on the right side of the AppBar
           IconButton(
-            icon: const Icon(Icons.account_circle,
-                color: Colors.black), // User icon
-            onPressed: () {
-              // Define what happens when the user icon is pressed (e.g., navigate to profile page)
-              print("User icon clicked");
-            },
+            icon: const Icon(Icons.account_circle, color: Colors.black),
+            onPressed: () {},
           ),
         ],
       ),
-      backgroundColor: const Color(0xFFB3D8A8), // Green background
+      backgroundColor: const Color(0xFFB3D8A8),
       body: Column(
         children: [
-          // Chat messages display
           Expanded(
             child: ListView.builder(
+              controller: _scrollController,
               padding: const EdgeInsets.all(16.0),
-              itemCount: messages.length,
+              itemCount: messages.length + (isBotTyping ? 1 : 0),
               itemBuilder: (context, index) {
+                if (isBotTyping && index == messages.length) {
+                  return _buildTypingIndicator();
+                }
+
                 final message = messages[index];
                 final isUserMessage = message['sender'] == 'user';
 
-                return Align(
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  margin: const EdgeInsets.symmetric(vertical: 5),
                   alignment: isUserMessage
                       ? Alignment.centerRight
                       : Alignment.centerLeft,
@@ -129,8 +158,9 @@ class _ChatbotPageState extends State<ChatbotPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 10.0),
                     decoration: BoxDecoration(
-                      color:
-                          isUserMessage ? Color(0xFFA3D1C6) : Color(0xFFFBFFE4),
+                      color: isUserMessage
+                          ? const Color(0xFFA3D1C6)
+                          : const Color(0xFFFBFFE4),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -142,46 +172,36 @@ class _ChatbotPageState extends State<ChatbotPage> {
               },
             ),
           ),
-
-          // This is the "chat input field" with a separated background design
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             child: Container(
               decoration: BoxDecoration(
-                color: Color(
-                    0xFF3D8D7A), // Green background for the input background
-                borderRadius: BorderRadius.circular(30), // Rounded corners
+                color: const Color(0xFF3D8D7A),
+                borderRadius: BorderRadius.circular(30),
               ),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Row(
                   children: [
-                    // Camera icon (or any icon you want on the left)
                     IconButton(
-                      icon: const Icon(Icons.camera_alt,
-                          color: Colors.white), // Camera icon
-                      onPressed: () {
-                        // You can define what happens here
-                      },
+                      icon: const Icon(Icons.camera_alt, color: Colors.white),
+                      onPressed: () {},
                     ),
                     Expanded(
                       child: TextField(
                         controller: _controller,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: "Message Green Loop Bot",
-                          hintStyle:
-                              TextStyle(color: Colors.white), // Hint text color
-                          border:
-                              InputBorder.none, // No border for the input field
+                          hintStyle: TextStyle(color: Colors.white),
+                          border: InputBorder.none,
                         ),
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.send,
-                          color: Colors.white), // White send icon
-                      onPressed: _sendMessage, // Send the message
+                      icon: const Icon(Icons.send, color: Colors.white),
+                      onPressed: _sendMessage,
                     ),
                   ],
                 ),
@@ -189,6 +209,24 @@ class _ChatbotPageState extends State<ChatbotPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTypingIndicator() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.7),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Text(
+          "Bot is typing...",
+          style: TextStyle(color: Colors.black54, fontSize: 14),
+        ),
       ),
     );
   }
