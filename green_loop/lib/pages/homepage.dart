@@ -3,7 +3,8 @@ import 'Profile.dart';
 import 'green_market_home.dart';
 import 'chatbot.dart';
 import 'workshops_page.dart';
-import 'RewardsPage.dart'; // Add the Rewards page import
+import 'RewardsPage.dart';
+import 'Rewards_colector.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -35,28 +36,18 @@ class _HomePageState extends State<HomePage> {
           _showMenu = false;
         });
 
-        // Navigate to the correct page based on menu item clicked
         if (title == "Profile") {
           Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ProfilePage()),
-          );
+              context, MaterialPageRoute(builder: (context) => ProfilePage()));
         } else if (title == "Green Market") {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => GreenMarketHomePage()),
-          );
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => GreenMarketHomePage()));
         } else if (title == "Workshops") {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => WorkshopsPage()),
-          );
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => WorkshopsPage()));
         } else if (title == "Rewards") {
           Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => RewardsPage()), // Navigate to RewardsPage
-          );
+              context, MaterialPageRoute(builder: (context) => RewardsPage()));
         }
       },
       child: Padding(
@@ -223,7 +214,13 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               icon: const Icon(Icons.camera_alt, color: Colors.black),
               iconSize: 30.0,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const RewodsCollectorPage()),
+                );
+              },
             ),
             IconButton(
               icon: const Icon(Icons.location_on, color: Colors.black),
@@ -263,12 +260,9 @@ class _HomePageState extends State<HomePage> {
           iconSize: 35.0,
           color: Colors.black,
           onPressed: () {
-            // Navigate to ChatbotPage when "smart_toy" icon is clicked
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => ChatbotPage(),
-              ), // Corrected navigation to ChatbotPage
+              MaterialPageRoute(builder: (context) => ChatbotPage()),
             );
           },
         ),

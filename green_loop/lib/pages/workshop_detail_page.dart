@@ -8,12 +8,12 @@ class WorkshopDetailPage extends StatelessWidget {
   final String instructor;
 
   const WorkshopDetailPage({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
     required this.dateTime,
     required this.instructor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +130,6 @@ class WorkshopDetailPage extends StatelessWidget {
                 onPressed: () {
                   print("Registered for $title Workshop");
                 },
-                child: const Text("Register Now"),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF3D8D7A),
                   padding:
@@ -139,6 +138,7 @@ class WorkshopDetailPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
+                child: const Text("Register Now"),
               ),
             ],
           ),
