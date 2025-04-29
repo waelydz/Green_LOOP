@@ -1,87 +1,64 @@
 import 'package:flutter/material.dart';
 import 'loginpages/login.dart';
 import 'loginpages/signup.dart';
-import 'dart:io';
-import 'dart:ui' as ui;
+import 'homepage.dart';
 
-class Landingpage extends StatelessWidget {
-  Color c1 = const Color(0xFF3D8D7A);
-  Color c2 = const Color(0xFFB3D8A8);
-  Color c3 = const Color(0xFFA3D1C6);
+class LandingPage extends StatelessWidget {
+  // Changed to PascalCase
+  static const Color primaryColor = Color(0xFF3D8D7A);
+  static const Color secondaryColor = Color(0xFFB3D8A8);
+  static const Color accentColor = Color(0xFFA3D1C6);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: c1,
+      backgroundColor: primaryColor,
       body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          //greenloop logo
-          SizedBox(
-            width: 250,
-            height: 250,
-            child: Image.asset('assets/images/Green_LOOP.png'),
-          ),
-          const SizedBox(height: 20),
-
-          //sign up button
-          SizedBox(
-            width:200,
-            child:ElevatedButton(
-            onPressed: () {
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 250,
+              height: 250,
+              child: Image.asset('assets/images/Green_LOOP.png'),
+            ),
+            const SizedBox(height: 20),
+            _buildButton(context, "Sign Up", secondaryColor, () {
               Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Signup()),
-                      );
-            },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: c2, // Button color
-                foregroundColor: Colors.white, // Text color
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                textStyle:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              child: const Text("Sign Up"),
-            ),
-          ),
-          const SizedBox(height: 20),
-          //log in button
-          SizedBox(
-            width:200,
-            child:ElevatedButton(
-            onPressed: () {
+                  context, MaterialPageRoute(builder: (context) => Signup()));
+            }),
+            const SizedBox(height: 20),
+            _buildButton(context, "Log in", secondaryColor, () {
               Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Login()),
-                      );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: c2, // Button color
-              foregroundColor: Colors.white, // Text color
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              textStyle:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            child: const Text("Log in"),
-          ),),
-          const SizedBox(height: 20),
+                  context, MaterialPageRoute(builder: (context) => Login()));
+            }),
+            const SizedBox(height: 20),
+            _buildButton(context, "Continue as guest", accentColor, () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
+            }),
+          ],
+        ),
+      ),
+    );
+  }
 
-          //continue as guest button
-          SizedBox(
-            child:ElevatedButton(
-            onPressed: () {
-              print("Button Pressed!");
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: c3, // Button color
-              foregroundColor: Colors.white, // Text color
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              textStyle:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            child: const Text("Continue as guest"),
-          ),),
-        ]),
+  Widget _buildButton(
+      BuildContext context, String text, Color color, VoidCallback onPressed) {
+    return SizedBox(
+      width: 200,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          textStyle: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        child: Text(text),
       ),
     );
   }
