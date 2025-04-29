@@ -21,7 +21,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // 🔄 Gradient background from 0xFFB3D8A8 to 0xFF3D8D7A
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -35,8 +34,6 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: [
                 const SizedBox(height: 10),
-
-                // Back button
                 Align(
                   alignment: Alignment.topLeft,
                   child: IconButton(
@@ -44,41 +41,25 @@ class _ProfilePageState extends State<ProfilePage> {
                     onPressed: () => Navigator.pop(context),
                   ),
                 ),
-
-                // Profile image with white circle border and "+" icon
-                Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 4),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 4),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 10,
+                        offset: const Offset(0, 5),
                       ),
-                      child: const CircleAvatar(
-                        radius: 60,
-                        backgroundImage:
-                            AssetImage('assets/images/profile_pic.jpg'),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 4,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                        ),
-                        padding: const EdgeInsets.all(6),
-                        child: const Icon(Icons.add,
-                            size: 20, color: Colors.black),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  child: const CircleAvatar(
+                    radius: 60,
+                    backgroundImage: AssetImage('assets/images/profile_pic.jpg'),
+                  ),
                 ),
-
                 const SizedBox(height: 20),
-
-                // Edit info toggle button
                 TextButton(
                   onPressed: () {
                     setState(() {
@@ -94,37 +75,39 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-
+                const SizedBox(height: 20),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Profile Information",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 10),
-
-                // Text fields with sample values
                 _buildTextField("First Name", _firstNameController),
                 _buildTextField("Last Name", _lastNameController),
                 _buildTextField("Username", _usernameController),
                 _buildTextField("Email Address", _emailController),
-                _buildTextField("Password", _passwordController,
-                    obscureText: true),
+                _buildTextField("Password", _passwordController, obscureText: true),
                 _buildTextField("Phone Number", _phoneController),
-
-                const SizedBox(height: 24),
-
-                // Save button
+                const SizedBox(height: 30),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFBFFE4),
                     foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
+                    elevation: 5,
                   ),
-                  onPressed: () {
-                    // TODO: Save to backend later
-                  },
+                  onPressed: () {},
                   child: const Text("Save Changes"),
                 ),
-
                 const SizedBox(height: 30),
               ],
             ),
@@ -156,8 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           ),
         ),
       ],

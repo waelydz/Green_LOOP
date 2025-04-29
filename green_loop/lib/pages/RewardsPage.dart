@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_loop/pages/chatbot.dart';
+import 'package:green_loop/pages/Rewards_colector.dart'; // ✅ Added this
 
 class RewardsPage extends StatefulWidget {
   const RewardsPage({super.key});
@@ -9,38 +10,20 @@ class RewardsPage extends StatefulWidget {
 }
 
 class _RewardsPageState extends State<RewardsPage> {
-  int userPoints = 3407; // User's current points
+  int userPoints = 3407;
 
-  // List of rewards
   List<Map<String, dynamic>> rewards = [
     {'points': 4570, 'description': 'Free Matcha from Claro', 'type': 'food'},
-    {
-      'points': 3120,
-      'description': '1-Day Pass for FitnessFirst',
-      'type': 'fitness'
-    },
-    {
-      'points': 1650,
-      'description': '15% Off in Sharjah CO-OP Society',
-      'type': 'shopping'
-    },
-    {
-      'points': 7040,
-      'description': '50% When Ordering from Noon',
-      'type': 'shopping'
-    },
-    {
-      'points': 520,
-      'description': 'Free Donut from Krispy Kreme',
-      'type': 'food'
-    },
+    {'points': 3120, 'description': '1-Day Pass for FitnessFirst', 'type': 'fitness'},
+    {'points': 1650, 'description': '15% Off in Sharjah CO-OP Society', 'type': 'shopping'},
+    {'points': 7040, 'description': '50% When Ordering from Noon', 'type': 'shopping'},
+    {'points': 520, 'description': 'Free Donut from Krispy Kreme', 'type': 'food'},
   ];
 
-  bool sortLowToHigh = false; // Sorting toggle
+  bool sortLowToHigh = false;
 
   @override
   Widget build(BuildContext context) {
-    // Sort the rewards
     List<Map<String, dynamic>> sortedRewards = List.from(rewards);
     if (sortLowToHigh) {
       sortedRewards.sort((a, b) => a['points'].compareTo(b['points']));
@@ -56,11 +39,7 @@ class _RewardsPageState extends State<RewardsPage> {
         centerTitle: true,
         title: const Text(
           'Rewards',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
         ),
         actions: [
           Padding(
@@ -71,11 +50,7 @@ class _RewardsPageState extends State<RewardsPage> {
                 const SizedBox(width: 4),
                 Text(
                   '$userPoints pts',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black),
                 ),
               ],
             ),
@@ -90,7 +65,6 @@ class _RewardsPageState extends State<RewardsPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Progress bar
             LinearProgressIndicator(
               value: userPoints / 10000,
               backgroundColor: Colors.white,
@@ -146,24 +120,14 @@ class _RewardsPageState extends State<RewardsPage> {
             IconButton(
               icon: const Icon(Icons.camera_alt, color: Colors.black),
               iconSize: 30.0,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const RewodsCollectorPage())); // ✅ Added here
+              },
             ),
-            IconButton(
-              icon: const Icon(Icons.location_on, color: Colors.black),
-              iconSize: 30.0,
-              onPressed: () {},
-            ),
+            IconButton(icon: const Icon(Icons.location_on, color: Colors.black), iconSize: 30.0, onPressed: () {}),
             const SizedBox(width: 40),
-            IconButton(
-              icon: const Icon(Icons.shopping_cart, color: Colors.black),
-              iconSize: 30.0,
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.group, color: Colors.black),
-              iconSize: 30.0,
-              onPressed: () {},
-            ),
+            IconButton(icon: const Icon(Icons.shopping_cart, color: Colors.black), iconSize: 30.0, onPressed: () {}),
+            IconButton(icon: const Icon(Icons.group, color: Colors.black), iconSize: 30.0, onPressed: () {}),
           ],
         ),
       ),
@@ -173,25 +137,14 @@ class _RewardsPageState extends State<RewardsPage> {
         decoration: BoxDecoration(
           color: const Color(0xFF7AC4B2),
           shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 8, offset: const Offset(0, 4))],
         ),
         child: IconButton(
           icon: const Icon(Icons.smart_toy),
           iconSize: 35.0,
           color: Colors.black,
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChatbotPage(),
-              ),
-            );
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ChatbotPage()));
           },
         ),
       ),
@@ -216,51 +169,32 @@ class _RewardsPageState extends State<RewardsPage> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4, offset: const Offset(0, 2))],
       ),
       child: Row(
         children: [
-          // Left side: Icon + Points
           Row(
             children: [
               Icon(rewardIcon, color: Colors.black, size: 30),
               const SizedBox(width: 8),
               Text(
                 '$points pts',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
               ),
             ],
           ),
           const SizedBox(width: 16),
-          // Vertical divider
           Container(
             height: 50,
             width: 1,
             color: Colors.grey,
           ),
           const SizedBox(width: 16),
-          // Right side: Description + Button
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  description,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                  ),
-                ),
+                Text(description, style: const TextStyle(fontSize: 14, color: Colors.black)),
                 const SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: () {
@@ -268,14 +202,9 @@ class _RewardsPageState extends State<RewardsPage> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF3D8D7A),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
-                  child: const Text(
-                    'Redeem Now',
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                  ),
+                  child: const Text('Redeem Now', style: TextStyle(color: Colors.white, fontSize: 12)),
                 ),
               ],
             ),
@@ -285,7 +214,6 @@ class _RewardsPageState extends State<RewardsPage> {
     );
   }
 
-  // Popup when Redeem button is clicked
   void _showRedeemPopup(String rewardName) {
     showDialog(
       context: context,

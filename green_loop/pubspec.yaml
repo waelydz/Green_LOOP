@@ -31,7 +31,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
+  image_picker: ^1.1.2
   provider: ^6.1.2
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   # fluentui_system_icons: ^1.1.273
@@ -62,6 +64,18 @@ flutter:
     - assets/images/backicon1.png
     - assets/images/fireworks.png
     - assets/images/leaves_background.png
+    - assets/images/news1.jpg
+    - assets/images/news2.jpg
+    - assets/images/news3.jpg
+    - assets/images/dubai1.jpg
+    - assets/images/dubai2.jpg
+    - assets/images/abudhabi1.jpg
+    - assets/images/abudhabi2.jpg
+    - assets/images/sharjah1.jpg
+    - assets/images/sharjah2.jpg
+    - assets/images/rak1.jpg
+    - assets/images/rak2.jpg
+    - assets/images/profile_pic.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -6,14 +6,15 @@ import 'workshops_page.dart';
 import 'RewardsPage.dart';
 import 'Rewards_colector.dart';
 import 'ReportProblemPage.dart';
+import 'NewsPage.dart';
+import 'CommunityPage.dart'; // ✅ Added
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   bool _showMenu = false;
   bool _showNotifications = false;
   double _menuOpacity = 0;
@@ -47,7 +48,8 @@ class _HomePageState extends State<HomePage>
       duration: const Duration(milliseconds: 800),
     )..repeat(reverse: true);
     _fabAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
-        CurvedAnimation(parent: _fabController, curve: Curves.easeInOut));
+      CurvedAnimation(parent: _fabController, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -65,20 +67,17 @@ class _HomePageState extends State<HomePage>
         });
 
         if (title == "Profile") {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ProfilePage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
         } else if (title == "Green Market") {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => GreenMarketHomePage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => GreenMarketHomePage()));
         } else if (title == "Workshops") {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => WorkshopsPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopsPage()));
         } else if (title == "Rewards") {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => RewardsPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => RewardsPage()));
         } else if (title == "Report Problem") {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ReportProblemPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ReportProblemPage()));
+        } else if (title == "News") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
         }
       },
       child: Padding(
@@ -87,8 +86,7 @@ class _HomePageState extends State<HomePage>
           children: [
             Icon(icon, color: Colors.white),
             const SizedBox(width: 10),
-            Text(title,
-                style: const TextStyle(color: Colors.white, fontSize: 16)),
+            Text(title, style: const TextStyle(color: Colors.white, fontSize: 16)),
           ],
         ),
       ),
@@ -135,34 +133,17 @@ class _HomePageState extends State<HomePage>
           Positioned.fill(
             child: Opacity(
               opacity: 0.3,
-              child: Image.asset(
-                'assets/images/leaves_background.png',
-                fit: BoxFit.cover,
-              ),
+              child: Image.asset('assets/images/leaves_background.png', fit: BoxFit.cover),
             ),
           ),
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: const [
-                Text("Green Loop",
-                    style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+                Text("Green Loop", style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black)),
                 SizedBox(height: 12),
-                Text("Where Every Cycle",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.italic,
-                        color: Color.fromARGB(255, 80, 77, 77))),
-                Text("Creates Change",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.italic,
-                        color: Color.fromARGB(255, 80, 77, 77))),
+                Text("Where Every Cycle", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic, color: Color.fromARGB(255, 80, 77, 77))),
+                Text("Creates Change", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic, color: Color.fromARGB(255, 80, 77, 77))),
                 SizedBox(height: 30),
               ],
             ),
@@ -215,24 +196,12 @@ class _HomePageState extends State<HomePage>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
-                    children: [
-                      InkWell(
-                        onTap: _toggleNotifications,
-                        child: const Text("New workshop added",
-                            style: TextStyle(color: Colors.white)),
-                      ),
-                      const SizedBox(height: 8),
-                      InkWell(
-                        onTap: _toggleNotifications,
-                        child: const Text("Check out the latest news",
-                            style: TextStyle(color: Colors.white)),
-                      ),
-                      const SizedBox(height: 8),
-                      InkWell(
-                        onTap: _toggleNotifications,
-                        child: const Text("Dr. Manar reacted to your post",
-                            style: TextStyle(color: Colors.white)),
-                      ),
+                    children: const [
+                      Text("New workshop added", style: TextStyle(color: Colors.white)),
+                      SizedBox(height: 8),
+                      Text("Check out the latest news", style: TextStyle(color: Colors.white)),
+                      SizedBox(height: 8),
+                      Text("Dr. Manar reacted to your post", style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ),
@@ -250,27 +219,18 @@ class _HomePageState extends State<HomePage>
               icon: const Icon(Icons.camera_alt, color: Colors.black),
               iconSize: 30.0,
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RewodsCollectorPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const RewodsCollectorPage()));
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.location_on, color: Colors.black),
-              iconSize: 30.0,
-              onPressed: () {},
-            ),
+            IconButton(icon: const Icon(Icons.location_on, color: Colors.black), iconSize: 30.0, onPressed: () {}),
             const SizedBox(width: 40),
-            IconButton(
-              icon: const Icon(Icons.shopping_cart, color: Colors.black),
-              iconSize: 30.0,
-              onPressed: () {},
-            ),
+            IconButton(icon: const Icon(Icons.shopping_cart, color: Colors.black), iconSize: 30.0, onPressed: () {}),
             IconButton(
               icon: const Icon(Icons.group, color: Colors.black),
               iconSize: 30.0,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityPage()));
+              },
             ),
           ],
         ),
@@ -283,21 +243,14 @@ class _HomePageState extends State<HomePage>
           decoration: BoxDecoration(
             color: const Color(0xFF7AC4B2),
             shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 8, offset: const Offset(0, 4))],
           ),
           child: IconButton(
             icon: const Icon(Icons.smart_toy),
             iconSize: 35.0,
             color: Colors.black,
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ChatbotPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ChatbotPage()));
             },
           ),
         ),

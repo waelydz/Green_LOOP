@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:green_loop/pages/chatbot.dart'; // Correct import for ChatbotPage
+import 'package:green_loop/pages/CommunityPage.dart';
+import 'package:green_loop/pages/chatbot.dart';
+import 'package:green_loop/pages/Rewards_colector.dart';
 
 class WorkshopDetailPage extends StatelessWidget {
   final String title;
   final String description;
-  final String dateTime; // Placeholder for frontend design
+  final String dateTime;
   final String instructor;
 
   const WorkshopDetailPage({
@@ -19,20 +21,18 @@ class WorkshopDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFB3D8A8), // Green background
+        backgroundColor: const Color(0xFFB3D8A8),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios,
-              color: Colors.black), // Back icon
-          onPressed: () => Navigator.pop(context), // Go back to previous page
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
+            child: const CircleAvatar(
               radius: 20.0,
-              backgroundImage: AssetImage(
-                  'assets/images/profile.jpg'), // User profile picture
+              backgroundImage: AssetImage('assets/images/profile_pic.jpg'),
             ),
           ),
         ],
@@ -41,94 +41,83 @@ class WorkshopDetailPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.center, // Align content in the center
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Workshop Title
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
               const SizedBox(height: 12),
-
-              // Workshop Image (Static image for frontend design)
               Image.asset('assets/images/home_decor.jpg',
                   height: 200, fit: BoxFit.cover),
               const SizedBox(height: 12),
-
-              // Description (Static text for frontend design)
               Text(
                 description,
                 style: const TextStyle(fontSize: 16, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
-
-              // Date, Time, Instructor Section (Centered for frontend design)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment:
-                    MainAxisAlignment.center, // Center the contents vertically
                 children: [
-                  // Date Section
                   Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, // Center horizontally
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.calendar_today,
-                          color: Colors.black, size: 18),
+                      const Icon(Icons.calendar_today, size: 18),
                       const SizedBox(width: 8),
-                      Text(
-                        dateTime, // Static value for frontend
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
+                      Text(dateTime,
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.grey)),
                     ],
                   ),
                   const SizedBox(height: 10),
-
-                  // Instructor Section
                   Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, // Center horizontally
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.person, color: Colors.black, size: 18),
+                      const Icon(Icons.person, size: 18),
                       const SizedBox(width: 8),
-                      Text(
-                        "Instructor: $instructor", // Static value for frontend
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
+                      Text("Instructor: $instructor",
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.grey)),
                     ],
                   ),
                   const SizedBox(height: 10),
-
-                  // Time Section
                   Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, // Center horizontally
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.access_time,
-                          color: Colors.black, size: 18),
+                      const Icon(Icons.access_time, size: 18),
                       const SizedBox(width: 8),
-                      const Text(
-                        'Time: 10 am',
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
+                      const Text('Time: 10 am',
+                          style: TextStyle(fontSize: 14, color: Colors.grey)),
                     ],
                   ),
                 ],
               ),
               const SizedBox(height: 20),
-
-              // Register Now Button (Static for frontend design)
               ElevatedButton(
                 onPressed: () {
-                  print("Registered for $title Workshop");
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        backgroundColor: const Color(0xFFB3D8A8),
+                        title: const Text('Success', style: TextStyle(color: Colors.black)),
+                        content: const Text('You have registered successfully!', style: TextStyle(color: Colors.black87)),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK', style: TextStyle(color: Colors.black)),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF3D8D7A),
@@ -151,22 +140,34 @@ class WorkshopDetailPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-                icon: const Icon(Icons.camera_alt, color: Colors.black),
-                iconSize: 30.0,
-                onPressed: () {}),
+              icon: const Icon(Icons.camera_alt, color: Colors.black),
+              iconSize: 30.0,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RewodsCollectorPage()));
+              },
+            ),
             IconButton(
-                icon: const Icon(Icons.location_on, color: Colors.black),
-                iconSize: 30.0,
-                onPressed: () {}),
+              icon: const Icon(Icons.location_on, color: Colors.black),
+              iconSize: 30.0,
+              onPressed: () {},
+            ),
             const SizedBox(width: 40),
             IconButton(
-                icon: const Icon(Icons.shopping_cart, color: Colors.black),
-                iconSize: 30.0,
-                onPressed: () {}),
+              icon: const Icon(Icons.shopping_cart, color: Colors.black),
+              iconSize: 30.0,
+              onPressed: () {},
+            ),
             IconButton(
-                icon: const Icon(Icons.group, color: Colors.black),
-                iconSize: 30.0,
-                onPressed: () {}),
+              icon: const Icon(Icons.group, color: Colors.black),
+              iconSize: 30.0,
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CommunityPage()));
+              },
+            ),
           ],
         ),
       ),
@@ -178,10 +179,9 @@ class WorkshopDetailPage extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 4))
           ],
         ),
         child: IconButton(
@@ -189,10 +189,8 @@ class WorkshopDetailPage extends StatelessWidget {
           iconSize: 35.0,
           color: Colors.black,
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ChatbotPage()),
-            );
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ChatbotPage()));
           },
         ),
       ),
