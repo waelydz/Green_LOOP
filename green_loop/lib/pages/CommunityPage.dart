@@ -60,7 +60,7 @@ class _CommunityPageState extends State<CommunityPage> {
             padding: const EdgeInsets.only(right: 12.0),
             child: CircleAvatar(
               radius: 18,
-              backgroundImage: AssetImage('assets/images/profile_user.jpg'),
+              backgroundImage: AssetImage('assets/images/profile_pic.jpg'),
             ),
           )
         ],
@@ -134,7 +134,7 @@ class _CommunityPageState extends State<CommunityPage> {
             children: [
               CircleAvatar(
                 radius: 16,
-                backgroundImage: AssetImage('assets/images/profile_user.jpg'),
+                backgroundImage: AssetImage('assets/images/profile_pic.jpg'),
               ),
               const SizedBox(width: 10),
               Text(post['user'], style: const TextStyle(fontWeight: FontWeight.bold)),

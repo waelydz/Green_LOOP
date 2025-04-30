@@ -7,7 +7,8 @@ import 'RewardsPage.dart';
 import 'Rewards_colector.dart';
 import 'ReportProblemPage.dart';
 import 'NewsPage.dart';
-import 'CommunityPage.dart'; // ✅ Added
+import 'CommunityPage.dart';
+import 'SupportCenterPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -78,6 +79,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Navigator.push(context, MaterialPageRoute(builder: (context) => ReportProblemPage()));
         } else if (title == "News") {
           Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
+        } else if (title == "Support Center") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SupportCenterPage()));
         }
       },
       child: Padding(
