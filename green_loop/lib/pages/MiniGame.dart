@@ -20,6 +20,7 @@ class Landing extends StatefulWidget {
 }
 
 class HomePageState extends State<Landing> {
+  int score = 0;
   List<int> snakePosition = [45, 65, 85, 105, 125];
   int numberOfSquares = 760;
   var randomNumber = Random();
@@ -27,12 +28,34 @@ class HomePageState extends State<Landing> {
   String direction = 'down';
   Timer? timer;
 void resetGame() {
+  score = 0;
   timer?.cancel();
   snakePosition = [45, 65, 85, 105, 125];
   direction = 'down';
   generateNewFood();
   startGame();
   setState(() {});
+}
+void showWinDialog(){
+  showDialog(
+    context : context,
+    builder: (context){
+      return AlertDialog(
+        title: Text('You Win!'),
+        content: Text('Congratulations, you reached 100 points!'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              resetGame();
+
+            },
+            child: Text('Play Again'),
+          )
+        ],
+      );
+    },
+  );
 }
   @override
   void initState() {
@@ -92,6 +115,11 @@ void resetGame() {
 
       if (snakePosition.last == food) {
         generateNewFood();
+        score += 10;
+        if(score >= 100){
+          timer?.cancel();
+          showWinDialog();
+        }
       } else {
         snakePosition.removeAt(0);
       }
@@ -126,6 +154,13 @@ void resetGame() {
 
   @override
   Widget build(BuildContext context) {
+    Padding(
+      padding: const EdgeInsets.all(16.0),
+      child : Text(
+        'Score: $score',
+        style: TextStyle(color: Colors.green, fontSize: 18),
+      ),
+    );
     return Scaffold(
       backgroundColor: Colors.black,
             body: Column(
@@ -133,7 +168,7 @@ void resetGame() {
           Expanded(
             child: GestureDetector(
               onVerticalDragUpdate: (details) {
-                var direction;
+                //var direction;
                 if (details.delta.dy > 0 && direction != 'up') {
                   direction = 'down';
                 } else if (details.delta.dy < 0 && direction != 'down') {
