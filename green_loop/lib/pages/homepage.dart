@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../qr_scan_page.dart'; // Updated import path
 import 'Profile.dart';
 import 'green_market_home.dart';
 import 'chatbot.dart';
@@ -222,10 +223,29 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: const Icon(Icons.camera_alt, color: Colors.black),
-              iconSize: 30.0,
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const RewodsCollectorPage()));
+              icon: const Icon(Icons.camera_alt),
+              onPressed: () async {
+                // QR scanning logic
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const QRScanPage()),
+                );
+
+                if (result != null && context.mounted) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('QR Code Scanned'),
+                      content: Text('Value: $result'),
+                      actions: [
+                        TextButton(
+                          onPressed: Navigator.of(context).pop,
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
               },
             ),
             IconButton(icon: const Icon(Icons.location_on, color: Colors.black), iconSize: 30.0, onPressed: () {}),

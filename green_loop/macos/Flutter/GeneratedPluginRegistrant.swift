@@ -4,7 +4,10 @@
 
 import FlutterMacOS
 import Foundation
+import mobile_scanner
 
+func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
+  MobileScannerPlugin.register(with: registry.registrar(forPlugin: "MobileScannerPlugin"))
 import file_selector_macos
 import path_provider_foundation
 import url_launcher_macos
