@@ -69,87 +69,79 @@ class _ChatbotPageState extends State<ChatbotPage>
   }
 
   void _sendMessage() async {
-  final userInput = _controller.text.trim();
-  if (userInput.isEmpty) return;
+    final userInput = _controller.text.trim();
+    if (userInput.isEmpty) return;
 
-  setState(() {
-    messages.add({
-      'sender': 'user',
-      'message': userInput,
+    setState(() {
+      messages.add({'sender': 'user', 'message': userInput});
+      _controller.clear();
     });
-    _controller.clear();
-  });
 
-  try {
-    // Check if user input includes a tutorial request keyword
-    if (userInput.toLowerCase().contains("tutorial")) {
-      setState(() {
-        messages.add({
-          'sender': 'bot',
-          'message': 'Creating a recycling tutorial for you... ♻️✨',
-        });
-      });
-
-      final tutorialSteps = await TutorialService.generateTutorial(userInput);
-
-      for (var step in tutorialSteps) {
+    try {
+      if (userInput.toLowerCase().contains("tutorial")) {
         setState(() {
           messages.add({
             'sender': 'bot',
-            'message': step.stepText,
-          });
-          messages.add({
-            'sender': 'bot',
-            'message': step.imageUrl, 
+            'message': 'Creating a recycling tutorial for you... ♻️✨',
           });
         });
+
+        final tutorialSteps = await TutorialService.generateTutorial(userInput);
+
+        for (var step in tutorialSteps) {
+          setState(() {
+            messages.add({'sender': 'bot', 'message': step.stepText});
+            messages.add({'sender': 'bot', 'message': step.imageUrl});
+          });
+        }
+      } else if (userInput.toLowerCase().contains("swap") ||
+          userInput.toLowerCase().contains("alternative")) {
+        setState(() {
+          messages.add({
+            'sender': 'bot',
+            'message': 'Finding ecofriendly alternatives...♻️✨',
+          });
+        });
+        final ecofriendly_swaps =
+            await OpenAIService.suggestAlternatives(userInput);
+        setState(() {
+          messages.add({'sender': 'bot', 'message': ecofriendly_swaps});
+        });
       }
-    } else if(userInput.toLowerCase().contains("swap") || userInput.toLowerCase().contains("alternative")){
+    } catch (e) {
       setState(() {
         messages.add({
           'sender': 'bot',
-          'message': 'Finding ecofriendly alternatives...♻️✨',
+          'message': 'Oops! Something went wrong: $e',
         });
       });
-      final ecofriendly_swaps = await OpenAIService.suggestAlternatives(userInput);
+    }
+  }
+
+  Future<void> _processImage(File imageFile) async {
+    setState(() {
+      messages.add({'sender': 'user', 'message': '[Image loaded]'});
+      messages.add({'sender': 'bot', 'message': 'Analyzing image, please wait...'});
+    });
+
+    try {
+      final response = await OpenAIService.analyzeImage(imageFile);
       setState(() {
-          messages.add({
-            'sender': 'bot',
-            'message': ecofriendly_swaps,
-          });
+        messages.removeLast();
+        messages.add({'sender': 'bot', 'message': response});
+      });
+    } catch (e) {
+      setState(() {
+        messages.removeLast();
+        messages.add({
+          'sender': 'bot',
+          'message': 'Sorry, I couldn’t process the image. Please try again.'
+        });
       });
     }
-  } catch (e) {
-    setState(() {
-      messages.add({
-        'sender': 'bot',
-        'message': 'Oops! Something went wrong: $e',
-      });
-    });
   }
-}
 
-Future<void> _processImage(File imageFile) async {
-  setState(() {
-    messages.add({'sender': 'user', 'message': '[Image loaded]'});
-    messages.add({'sender': 'bot', 'message': 'Analyzing image, please wait...'});
-  });
-
-  try {
-    final response = await OpenAIService.analyzeImage(imageFile);
-    setState(() {
-      messages.removeLast();
-      messages.add({'sender': 'bot', 'message': response});
-    });
-  } catch (e) {
-    setState(() {
-      messages.removeLast();
-      messages.add({'sender': 'bot', 'message': 'Sorry, I couldn’t process the image. Please try again.'});
-    });
-  }
-}
-
-Future<void> _handleCameraAction() async {
+  Future<void> _handleCameraAction() async {
     final picker = ImagePicker();
 
     await showModalBottomSheet(
@@ -216,9 +208,9 @@ Future<void> _handleCameraAction() async {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedContainer(
-              duration: Duration(milliseconds: 300),
+          children: List.generate(3, (index) {
+            return AnimatedContainer(
+              duration: Duration(milliseconds: 300 + index * 200),
               width: 6,
               height: 6,
               margin: EdgeInsets.symmetric(horizontal: 2),
@@ -226,28 +218,8 @@ Future<void> _handleCameraAction() async {
                 color: Colors.grey,
                 shape: BoxShape.circle,
               ),
-            ),
-            AnimatedContainer(
-              duration: Duration(milliseconds: 500),
-              width: 6,
-              height: 6,
-              margin: EdgeInsets.symmetric(horizontal: 2),
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                shape: BoxShape.circle,
-              ),
-            ),
-            AnimatedContainer(
-              duration: Duration(milliseconds: 700),
-              width: 6,
-              height: 6,
-              margin: EdgeInsets.symmetric(horizontal: 2),
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ],
+            );
+          }),
         ),
       ),
     );
@@ -260,7 +232,7 @@ Future<void> _handleCameraAction() async {
         backgroundColor: const Color(0xFFB3D8A8),
         elevation: 0,
         title: Row(
-          children: const [
+          children: [
             Icon(Icons.smart_toy_outlined, color: Colors.black),
             SizedBox(width: 8),
             Text("Green Loop Bot", style: TextStyle(color: Colors.black)),
@@ -270,36 +242,6 @@ Future<void> _handleCameraAction() async {
       backgroundColor: const Color(0xFFB3D8A8),
       body: Stack(
         children: [
-          // Chat messages display
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                final message = messages[index];
-                final isUserMessage = message['sender'] == 'user';
-
-                return Align(
-                  alignment: isUserMessage
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 10.0),
-                    decoration: BoxDecoration(
-                      color:
-                          isUserMessage ? Color(0xFFA3D1C6) : Color(0xFFFBFFE4),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: message['message']!.startsWith('http')
-                    ? Image.network(message['message']!)
-                    : Text(
-                      message['message']!,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
-                );
-              },
           Positioned.fill(
             child: Opacity(
               opacity: 0.07,
@@ -321,7 +263,6 @@ Future<void> _handleCameraAction() async {
                       return _buildTypingIndicator();
                     }
 
-
                     final message = messages[index];
                     final isUserMessage = message['sender'] == 'user';
 
@@ -333,8 +274,11 @@ Future<void> _handleCameraAction() async {
                           ? Alignment.centerRight
                           : Alignment.centerLeft,
                       child: Container(
-                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.75,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 10.0),
                         decoration: BoxDecoration(
                           color: isUserMessage
                               ? const Color(0xFFA3D1C6)
@@ -342,10 +286,12 @@ Future<void> _handleCameraAction() async {
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(16),
                             topRight: Radius.circular(16),
-                            bottomLeft:
-                                isUserMessage ? Radius.circular(16) : Radius.circular(4),
-                            bottomRight:
-                                isUserMessage ? Radius.circular(4) : Radius.circular(16),
+                            bottomLeft: isUserMessage
+                                ? Radius.circular(16)
+                                : Radius.circular(4),
+                            bottomRight: isUserMessage
+                                ? Radius.circular(4)
+                                : Radius.circular(16),
                           ),
                           boxShadow: [
                             BoxShadow(
@@ -355,17 +301,20 @@ Future<void> _handleCameraAction() async {
                             )
                           ],
                         ),
-                        child: Text(
-                          message['message']!,
-                          style: const TextStyle(fontSize: 16),
-                        ),
+                        child: message['message']!.startsWith('http')
+                            ? Image.network(message['message']!)
+                            : Text(
+                                message['message']!,
+                                style: const TextStyle(fontSize: 16),
+                              ),
                       ),
                     );
                   },
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 14.0),
                 child: Container(
                   decoration: BoxDecoration(
                     color: const Color(0xFF3D8D7A),
@@ -379,12 +328,13 @@ Future<void> _handleCameraAction() async {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 6.0),
                     child: Row(
                       children: [
                         IconButton(
                           icon: const Icon(Icons.camera_alt, color: Colors.white),
-                          onPressed: () {},
+                          onPressed: _handleCameraAction,
                         ),
                         Expanded(
                           child: TextField(
