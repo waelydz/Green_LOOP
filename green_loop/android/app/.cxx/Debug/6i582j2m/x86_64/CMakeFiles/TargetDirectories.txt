@@ -1,0 +1,2 @@
+C:/Users/waely/Desktop/College/Green_LOOP/Green_LOOP/green_loop/android/app/.cxx/Debug/6i582j2m/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/waely/Desktop/College/Green_LOOP/Green_LOOP/green_loop/android/app/.cxx/Debug/6i582j2m/x86_64/CMakeFiles/rebuild_cache.dir
