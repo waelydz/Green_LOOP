@@ -1,0 +1,1 @@
+C:\flutter_projects\Green_LOOP\green_loop\build\app\intermediates\cxx\Debug\184s306k\obj\arm64-v8a
