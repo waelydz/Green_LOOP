@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'RewardsPage.dart';
 
 class RewodsCollectorPage extends StatefulWidget {
-  const RewodsCollectorPage({super.key});
+  final int points;
+
+  const RewodsCollectorPage({super.key, required this.points});
 
   @override
   State<RewodsCollectorPage> createState() => _RewodsCollectorPageState();
@@ -11,12 +12,14 @@ class RewodsCollectorPage extends StatefulWidget {
 class _RewodsCollectorPageState extends State<RewodsCollectorPage>
     with SingleTickerProviderStateMixin {
   int currentPage = 0;
+  late int earnedPoints;
   late AnimationController _controller;
   late Animation<double> _fireworkAnimation;
 
   @override
   void initState() {
     super.initState();
+    earnedPoints = widget.points;
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -92,9 +95,9 @@ class _RewodsCollectorPageState extends State<RewodsCollectorPage>
             ),
           ),
           const SizedBox(height: 10),
-          const Text(
-            '0',
-            style: TextStyle(
+          Text(
+            '$earnedPoints',
+            style: const TextStyle(
               fontSize: 42,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -161,9 +164,9 @@ class _RewodsCollectorPageState extends State<RewodsCollectorPage>
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 30),
-          const Text(
-            'Points Earned: 0',
-            style: TextStyle(
+          Text(
+            'Points Earned: $earnedPoints',
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -242,7 +245,7 @@ class _RewodsCollectorPageState extends State<RewodsCollectorPage>
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => RewardsPage()));
+              Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFB3D8A8),

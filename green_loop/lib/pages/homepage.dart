@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../qr_scan_page.dart'; // Updated import path
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import '../qr_scan_page.dart';
 import 'Profile.dart';
 import 'green_market_home.dart';
 import 'chatbot.dart';
@@ -61,43 +63,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     super.dispose();
   }
 
-  Widget _buildMenuItem(String title, IconData icon) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          _showMenu = false;
-          _menuOpacity = 0;
-        });
-
-        if (title == "Profile") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
-        } else if (title == "Green Market") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => GreenMarketHomePage()));
-        } else if (title == "Workshops") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopsPage()));
-        } else if (title == "Rewards") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => RewardsPage()));
-        } else if (title == "Report Problem") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ReportProblemPage()));
-        } else if (title == "News") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
-        } else if (title == "Support Center") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SupportCenterPage()));
-        } else if (title == "Mini Game") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Landing()));
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          children: [
-            Icon(icon, color: Colors.white),
-            const SizedBox(width: 10),
-            Text(title, style: const TextStyle(color: Colors.white, fontSize: 16)),
-          ],
-        ),
-      ),
-    );
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
   @override
@@ -225,26 +192,35 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             IconButton(
               icon: const Icon(Icons.camera_alt),
               onPressed: () async {
-                // QR scanning logic
                 final result = await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const QRScanPage()),
                 );
 
-                if (result != null && context.mounted) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('QR Code Scanned'),
-                      content: Text('Value: $result'),
-                      actions: [
-                        TextButton(
-                          onPressed: Navigator.of(context).pop,
-                          child: const Text('OK'),
+                if (result != null) {
+                  try {
+                    final response = await http.post(
+                      Uri.parse('https://your-api.com/redeem'),
+                      headers: {'Content-Type': 'application/json'},
+                      body: jsonEncode({'qr_code': result}),
+                    );
+
+                    if (response.statusCode == 200) {
+                      final data = jsonDecode(response.body);
+                      int points = data['points'] ?? 0;
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RewodsCollectorPage(points: points),
                         ),
-                      ],
-                    ),
-                  );
+                      );
+                    } else {
+                      _showError('Invalid QR or server error');
+                    }
+                  } catch (e) {
+                    _showError('Failed to connect');
+                  }
                 }
               },
             ),
@@ -282,6 +258,45 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  Widget _buildMenuItem(String title, IconData icon) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _showMenu = false;
+          _menuOpacity = 0;
+        });
+
+        if (title == "Profile") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+        } else if (title == "Green Market") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => GreenMarketHomePage()));
+        } else if (title == "Workshops") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopsPage()));
+        } else if (title == "Rewards") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => RewardsPage()));
+        } else if (title == "Report Problem") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ReportProblemPage()));
+        } else if (title == "News") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
+        } else if (title == "Support Center") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SupportCenterPage()));
+        } else if (title == "Mini Game") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Landing()));
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.white),
+            const SizedBox(width: 10),
+            Text(title, style: const TextStyle(color: Colors.white, fontSize: 16)),
+          ],
+        ),
+      ),
     );
   }
 }
