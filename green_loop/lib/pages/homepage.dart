@@ -223,7 +223,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: const Icon(Icons.camera_alt),
+              icon: const Icon(Icons.camera_alt, color: Colors.black),
               onPressed: () async {
                 // QR scanning logic
                 final result = await Navigator.push(
