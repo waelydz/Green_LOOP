@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Profile.dart';
 import 'green_market_home.dart';
-import 'chatbot.dart'; // Corrected import for Chat with Bot Page
+import 'chatbot.dart'; 
 
 class HomePage extends StatefulWidget {
   @override

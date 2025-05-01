@@ -1,0 +1,2 @@
+C:/flutter_projects/Green_LOOP/green_loop/android/app/.cxx/Debug/6q3v1r42/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/flutter_projects/Green_LOOP/green_loop/android/app/.cxx/Debug/6q3v1r42/armeabi-v7a/CMakeFiles/rebuild_cache.dir
