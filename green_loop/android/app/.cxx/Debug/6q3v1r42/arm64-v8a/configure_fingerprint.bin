@@ -2,6 +2,7 @@ C/C++ Structured LogO
 M
 KC:\dev\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txtC
 A
+<<<<<<< Updated upstream
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	ò¤‚˜è2§ ·³ÙÏä2t
 r
 pC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\additional_project_files.txt	ò¤‚˜è2 ²©À”è2q
@@ -26,3 +27,29 @@ h
 fC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\prefab_config.json	ò¤‚˜è2( Ç©À”è2o
 m
 kC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\symbol_folder_index.txt	ò¤‚˜è2b É©À”è2
+=======
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	Þè½“è2§ ·³ÙÏä2t
+r
+pC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\additional_project_files.txt	Þè½“è2 ŽÝâ’è2q
+o
+mC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\android_gradle_build.json	Þè½“è2Á ¡Ýâ’è2v
+t
+rC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\android_gradle_build_mini.json	Þè½“è2œ ºÝâ’è2c
+a
+_C:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\build.ninja	Þè½“è2ÃÔ …Ûâ’è2g
+e
+cC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\build.ninja.txt	Þè½“è2l
+j
+hC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\build_file_index.txt	Þè½“è2K ÈÝâ’è2m
+k
+iC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\compile_commands.json	Þè½“è2	q
+o
+mC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\compile_commands.json.bin	Þè½“è2
+w
+u
+sC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\metadata_generation_command.txt	Þè½“è2Þ ÁÝâ’è2j
+h
+fC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\prefab_config.json	Þè½“è2( ÂÝâ’è2o
+m
+kC:\flutter_projects\Green_LOOP\green_loop\android\app\.cxx\Debug\6q3v1r42\arm64-v8a\symbol_folder_index.txt	Þè½“è2b ÅÝâ’è2
+>>>>>>> Stashed changes
