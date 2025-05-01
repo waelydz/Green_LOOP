@@ -82,11 +82,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
         } else if (title == "Support Center") {
           Navigator.push(context, MaterialPageRoute(builder: (context) => SupportCenterPage()));
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => GreenMarketHomePage()));
         } else if (title == "Mini Game") {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Landing()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Landing()));
         }
       },
       child: Padding(
@@ -177,8 +174,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     _buildMenuItem("Green Market", Icons.store),
                     _buildMenuItem("Workshops", Icons.work),
                     _buildMenuItem("News", Icons.article),
-
-                    _buildMenuItem("Mini Games", Icons.videogame_asset),
+                    _buildMenuItem("Mini Game", Icons.videogame_asset),
                     _buildMenuItem("Rewards", Icons.card_giftcard),
                     _buildMenuItem("Support Center", Icons.support),
                     _buildMenuItem("Report Problem", Icons.report_problem),
