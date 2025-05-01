@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'RewardsPage.dart';
 
 class RewodsCollectorPage extends StatefulWidget {
   const RewodsCollectorPage({super.key});
@@ -241,7 +242,7 @@ class _RewodsCollectorPageState extends State<RewodsCollectorPage>
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RewardsPage()));
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFB3D8A8),

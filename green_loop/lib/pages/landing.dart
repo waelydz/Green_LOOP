@@ -27,13 +27,6 @@ class LandingPage extends StatelessWidget {
                   height: 220,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 20,
-                        offset: Offset(0, 10),
-                      ),
-                    ],
                   ),
                   child: Image.asset('assets/images/Green_LOOP.png'),
                 ),
