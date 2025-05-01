@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'RewardsPage.dart';
 
 class RewodsCollectorPage extends StatefulWidget {
-  final int points;
-
-  const RewodsCollectorPage({super.key, required this.points});
+  const RewodsCollectorPage({super.key});
 
   @override
   State<RewodsCollectorPage> createState() => _RewodsCollectorPageState();
@@ -12,14 +11,12 @@ class RewodsCollectorPage extends StatefulWidget {
 class _RewodsCollectorPageState extends State<RewodsCollectorPage>
     with SingleTickerProviderStateMixin {
   int currentPage = 0;
-  late int earnedPoints;
   late AnimationController _controller;
   late Animation<double> _fireworkAnimation;
 
   @override
   void initState() {
     super.initState();
-    earnedPoints = widget.points;
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -95,9 +92,9 @@ class _RewodsCollectorPageState extends State<RewodsCollectorPage>
             ),
           ),
           const SizedBox(height: 10),
-          Text(
-            '$earnedPoints',
-            style: const TextStyle(
+          const Text(
+            '0',
+            style: TextStyle(
               fontSize: 42,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -164,9 +161,9 @@ class _RewodsCollectorPageState extends State<RewodsCollectorPage>
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 30),
-          Text(
-            'Points Earned: $earnedPoints',
-            style: const TextStyle(
+          const Text(
+            'Points Earned: 0',
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -245,7 +242,7 @@ class _RewodsCollectorPageState extends State<RewodsCollectorPage>
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RewardsPage()));
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFB3D8A8),
