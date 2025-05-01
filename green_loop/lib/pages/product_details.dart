@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'chat_page.dart'; // Import the ChatPage
 
 class ProductDetailsPage extends StatelessWidget {
   final Map<String, dynamic> product;
@@ -96,9 +97,9 @@ class ProductDetailsPage extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  _buildActionButton("Add to Cart"),
+                  _buildActionButton("Add to Cart", context),
                   const SizedBox(height: 16),
-                  _buildActionButton("Contact Seller"),
+                  _buildActionButton("Contact Seller", context),
                 ],
               ),
             ),
@@ -108,11 +109,23 @@ class ProductDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton(String label) {
+  Widget _buildActionButton(String label, BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          if (label == "Contact Seller") {
+            // Navigate to the ChatPage when "Contact Seller" is pressed
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ChatPage()), // Fixed the issue here by removing 'const'
+            );
+          } else if (label == "Add to Cart") {
+            // You can add your cart logic here if needed in the future
+          }
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF3D8D7A),
           shape: RoundedRectangleBorder(

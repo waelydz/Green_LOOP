@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'upload_product.dart';
 import 'product_details.dart';
+import 'upload_product.dart';
 
 class GreenMarketHomePage extends StatelessWidget {
   final List<Map<String, dynamic>> products = [
@@ -37,7 +37,7 @@ class GreenMarketHomePage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.shopping_cart, color: Colors.black),
             onPressed: () {},
-          )
+          ),
         ],
       ),
       body: Padding(
@@ -61,8 +61,8 @@ class GreenMarketHomePage extends StatelessWidget {
               child: const Text(
                 "Become a seller",
                 style: TextStyle(
-                  fontSize: 20, // 🔁 You can change this number to any size
-                  fontWeight: FontWeight.w500, // Optional: make it a bit bolder
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
