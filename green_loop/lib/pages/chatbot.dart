@@ -1,11 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:green_loop/llm/tutorial_service.dart';
-<<<<<<< Updated upstream
 import 'package:green_loop/llm/new_services.dart';
 import 'package:image_picker/image_picker.dart';
-=======
->>>>>>> Stashed changes
 
 class ChatbotPage extends StatefulWidget {
   @override
@@ -90,7 +87,6 @@ class _ChatbotPageState extends State<ChatbotPage> {
         setState(() {
           messages.add({
             'sender': 'bot',
-<<<<<<< Updated upstream
             'message': step.stepText,
           });
           messages.add({
@@ -112,23 +108,6 @@ class _ChatbotPageState extends State<ChatbotPage> {
             'sender': 'bot',
             'message': ecofriendly_swaps,
           });
-=======
-            'message': step.text,
-          });
-          messages.add({
-            'sender': 'bot',
-            'message': step.imageUrl, // Later you can display this as image
-          });
-        });
-      }
-    } else {
-      // Generic fallback
-      setState(() {
-        messages.add({
-          'sender': 'bot',
-          'message': 'Thank you! How can I assist you further?',
-        });
->>>>>>> Stashed changes
       });
     }
   } catch (e) {
@@ -138,7 +117,6 @@ class _ChatbotPageState extends State<ChatbotPage> {
         'message': 'Oops! Something went wrong: $e',
       });
     });
-<<<<<<< Updated upstream
   }
 }
 
@@ -196,11 +174,7 @@ Future<void> _handleCameraAction() async {
         );
       },
     );
-=======
->>>>>>> Stashed changes
   }
-}
-
 
   @override
   void initState() {

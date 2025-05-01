@@ -32,15 +32,11 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.1.2
-<<<<<<< Updated upstream
   http : ^0.13.5
   image_picker: ^0.8.5+3
   flutter_dotenv: ^5.0.2
   path_provider: ^2.0.11
   path: ^1.8.2
-=======
-  http: ^0.13.5
->>>>>>> Stashed changes
 
 
 dev_dependencies:
